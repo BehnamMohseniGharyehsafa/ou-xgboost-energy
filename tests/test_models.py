@@ -28,7 +28,7 @@ def test_auto_backend_without_xgboost(monkeypatch):
     def missing(name):
         raise ImportError("not installed")
 
-    monkeypatch.setattr("energy_forecast.models.importlib.import_module", missing)
+    monkeypatch.setattr("energy_forecast.models.import_module", missing)
     assert TreeRegressor(ForecastConfig()).backend == "hist"
     with pytest.raises(RuntimeError, match="Install"):
         TreeRegressor(ForecastConfig(backend="xgboost"))
@@ -64,7 +64,7 @@ def test_cuda_training_failure_respects_device_request(monkeypatch, device):
         XGBRegressor=DeviceFailure,
         core=SimpleNamespace(XGBoostError=RuntimeError),
     )
-    monkeypatch.setattr("energy_forecast.models.importlib.import_module", lambda name: fake)
+    monkeypatch.setattr("energy_forecast.models.import_module", lambda name: fake)
     monkeypatch.setattr("energy_forecast.models._cuda_available", lambda *args: True)
     model = TreeRegressor(ForecastConfig(device=device))
     X, y = np.zeros((30, 2)), np.ones(30)
@@ -79,7 +79,7 @@ def test_cuda_training_failure_respects_device_request(monkeypatch, device):
 
 def test_explicit_cuda_cannot_silently_use_cpu(monkeypatch):
     fake = SimpleNamespace(__version__="3.0.0")
-    monkeypatch.setattr("energy_forecast.models.importlib.import_module", lambda name: fake)
+    monkeypatch.setattr("energy_forecast.models.import_module", lambda name: fake)
     monkeypatch.setattr("energy_forecast.models._cuda_available", lambda *args: False)
     with pytest.raises(RuntimeError, match="CUDA requested"):
         TreeRegressor(ForecastConfig(device="cuda"))

@@ -1,9 +1,9 @@
 """Deterministic boosting with verified CUDA selection and explicit fallbacks."""
 
-import importlib
 import json
 import logging
 import warnings
+from importlib import import_module
 
 import numpy as np
 from sklearn.ensemble import HistGradientBoostingRegressor
@@ -47,7 +47,7 @@ class TreeRegressor:
         self.xgb = None
         if config.backend != "hist":
             try:
-                self.xgb = importlib.import_module("xgboost")
+                self.xgb = import_module("xgboost")
             except (ImportError, OSError) as error:
                 if config.backend == "xgboost" or config.device == "cuda":
                     raise RuntimeError("Install a compatible XGBoost >=2 build") from error
