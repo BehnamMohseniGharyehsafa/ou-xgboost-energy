@@ -1,0 +1,5 @@
+include LICENSE CITATION.cff CHANGELOG.md CONTRIBUTING.md SECURITY.md
+recursive-include docs *.md *.svg
+recursive-include tests *.py
+recursive-include examples *.md *.csv *.json *.png *.txt
+recursive-include data *.md *.csv

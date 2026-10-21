@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software in research, please cite this repository."
+title: "OU + XGBoost for Electricity Price Forecasting"
+type: software
+authors:
+  - family-names: "Mohseni Gharyehsafa"
+    given-names: "Behnam"
+version: 0.1.0
+date-released: 2026-10-21
+url: "https://github.com/BehnamMohseniGharyehsafa/ou-xgboost-energy"
+repository-code: "https://github.com/BehnamMohseniGharyehsafa/ou-xgboost-energy"
+license: MIT
+abstract: >-
+  A research implementation of next-day UTC daily-average electricity price
+  forecasting using causal lagged features, gradient-boosted trees, and a
+  conditioned Ornstein-Uhlenbeck expectation, with chronological evaluation.
+keywords:
+  - electricity price forecasting
+  - Ornstein-Uhlenbeck
+  - XGBoost
+  - stochastic processes
+  - energy markets
