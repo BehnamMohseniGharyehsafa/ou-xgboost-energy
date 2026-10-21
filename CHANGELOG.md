@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — 2026-10-21
+## 0.1.0 (2026-10-21)
 
 Initial research package based on the author's supplied OU + XGBoost prototype.
 

@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/assets/banner.svg" alt="OU + XGBoost Energy — stochastic dynamics meet machine learning" width="100%"></p>
+<p align="center"><img src="docs/assets/banner.svg" alt="OU + XGBoost Energy: stochastic dynamics meet machine learning" width="100%"></p>
 
 <p align="center">
   <a href="https://github.com/BehnamMohseniGharyehsafa/ou-xgboost-energy/actions/workflows/ci.yml"><img src="https://github.com/BehnamMohseniGharyehsafa/ou-xgboost-energy/actions/workflows/ci.yml/badge.svg" alt="Tests"></a>
