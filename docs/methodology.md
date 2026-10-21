@@ -4,7 +4,9 @@
 
 Let $d$ denote target UTC midnight. All supplied prices with timestamps $t<d$ are assumed available then. At regular cadence $h$ hours, the target is
 
-$$y_d=\frac{1}{m}\sum_{j=0}^{m-1}P_{d+jh},\qquad m=24/h.$$
+```math
+y_d=\frac{1}{m}\sum_{j=0}^{m-1}P_{d+jh},\qquad m=24/h.
+```
 
 The code uses complete UTC days and observation/interval-start labels. It checks that every price in a target's expected grid is present. The information-set assumption must be checked against actual publication times; timestamps alone do not establish availability.
 
@@ -26,15 +28,21 @@ Both use a fixed random seed. Tree splits do not require standardized features. 
 
 The working process is
 
-$$dP_t=\kappa(\theta-P_t)\,dt+\sigma\,dW_t.$$
+```math
+dP_t=\kappa(\theta-P_t)\,dt+\sigma\,dW_t.
+```
 
 For historical consecutive observations in the window $[d-W,d)$, form
 
-$$r_i=\frac{P_{i+1}-P_i}{\Delta t_i}=a+bP_i+\epsilon_i.$$
+```math
+r_i=\frac{P_{i+1}-P_i}{\Delta t_i}=a+bP_i+\epsilon_i.
+```
 
 The implementation fits weighted least squares with objective
 
-$$\min_{a,b}\sum_i\Delta t_i\,(r_i-a-bP_i)^2.$$
+```math
+\min_{a,b}\sum_i\Delta t_i\,(r_i-a-bP_i)^2.
+```
 
 Weighting by $\Delta t_i$ corresponds to the Euler noise variance of the derivative being proportional to $1/\Delta t_i$. On a regular grid all weights are equal. Time is measured in hours, giving $\widehat\kappa=-\widehat b$ in hour$^{-1}$ and $\widehat\theta=\widehat a/\widehat\kappa$ in price units.
 
@@ -46,14 +54,20 @@ This is a **trimmed Euler approximation**, not exact maximum likelihood, an unbi
 
 Given last observation $P_0$ at $t_0$, a constant future level $\theta_d$ yields
 
-$$\mathbb E[P_{t_0+s}\mid P_0]=\theta_d+(P_0-\theta_d)e^{-\kappa s}.$$
+```math
+\mathbb E[P_{t_0+s}\mid P_0]=\theta_d+(P_0-\theta_d)e^{-\kappa s}.
+```
 
 Let $\delta=d-t_0\geq0$. Integrating from target midnight for $H=24$ hours gives
 
-$$\mathbb E\!\left[\frac1H\int_{\delta}^{\delta+H}P_{t_0+s}\,ds\mid P_0\right]
-=\theta_d+(P_0-\theta_d)A,$$
+```math
+\mathbb E\!\left[\frac1H\int_{\delta}^{\delta+H}P_{t_0+s}\,ds\mid P_0\right]
+=\theta_d+(P_0-\theta_d)A,
+```
 
-$$A=e^{-\kappa\delta}\frac{1-e^{-\kappa H}}{\kappa H}.$$
+```math
+A=e^{-\kappa\delta}\frac{1-e^{-\kappa H}}{\kappa H}.
+```
 
 For hourly observations ending at 23:00, $\delta=1$ hour. This explicitly accounts for the distance between the final observation and midnight. `expm1` avoids cancellation for small $\kappa H$, and the $\kappa=0$ limit returns $P_0$. Negative speeds are invalid rather than silently clamped. The continuous integral is an approximation to the discrete target in section 1.
 
@@ -61,8 +75,10 @@ For hourly observations ending at 23:00, $\delta=1$ hour. This explicitly accoun
 
 The original model idea is retained by setting $\theta_d=f_d$, where $f_d$ is the tree forecast. Consequently
 
-$$o_d=f_d+(P_0-f_d)A,\qquad
-\widehat y_d=wf_d+(1-w)o_d=f_d+(1-w)A(P_0-f_d).$$
+```math
+o_d=f_d+(P_0-f_d)A,\qquad
+\widehat y_d=wf_d+(1-w)o_d=f_d+(1-w)A(P_0-f_d).
+```
 
 This is a dynamically damped correction of the tree forecast toward the latest observed price. A faster mean reversion or a larger $w$ shrinks the correction. The two components are dependent because they share $f_d$. For valid positive speeds, $A\in[0,1]$, so the hybrid lies between $f_d$ and $P_0$.
 

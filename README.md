@@ -94,15 +94,21 @@ flowchart LR
 
 The continuous-time model is
 
-$$dP_t = \kappa(\theta-P_t)\,dt + \sigma\,dW_t.$$
+```math
+dP_t = \kappa(\theta-P_t)\,dt + \sigma\,dW_t.
+```
 
 For a future level $\theta_d$, last observed price $P_0$, horizon $H=24$ hours, and time $\delta$ from the last sample to target midnight:
 
-$$\widehat P_{\mathrm{OU},d}=\theta_d+(P_0-\theta_d)e^{-\kappa\delta}\frac{1-e^{-\kappa H}}{\kappa H}.$$
+```math
+\widehat P_{\mathrm{OU},d}=\theta_d+(P_0-\theta_d)e^{-\kappa\delta}\frac{1-e^{-\kappa H}}{\kappa H}.
+```
 
 The hybrid sets $\theta_d=\widehat y_{\mathrm{ML},d}$ and computes
 
-$$\widehat y_d=w\widehat y_{\mathrm{ML},d}+(1-w)\widehat P_{\mathrm{OU},d}.$$
+```math
+\widehat y_d=w\widehat y_{\mathrm{ML},d}+(1-w)\widehat P_{\mathrm{OU},d}.
+```
 
 The default is $w=0.5$. The conditioned OU component shares the ML forecast; it is **not an independent second learner**. A separate historical-level OU baseline is also reported. If a positive mean-reversion speed cannot be estimated, the blend falls back to ML and records the reason. See [methodology and derivation](docs/methodology.md).
 
